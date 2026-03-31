@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Captcha Generator</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+        }
+
+        .captcha-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+
+        /* Captcha Display Box */
+        .captcha-display {
+            background: #eee;
+            padding: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            font-style: italic;
+            margin-bottom: 15px;
+            text-decoration: line-through;
+            color: #333;
+            user-select: none;
+            /* User copy nahi kar sakega */
+            border: 2px dashed #bbb;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .btn-check {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .btn-refresh {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: underline;
+            margin-bottom: 10px;
+        }
+
+        #status {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="captcha-card">
+        <h3>Verify You're Human</h3>
+
+        <div class="captcha-display" id="captchaBox">------</div>
+
+        <button class="btn-refresh" onclick="generateCaptcha()">Refresh Captcha</button>
+
+        <input type="text" id="userInput" placeholder="Enter Captcha here">
+
+        <button class="btn-check" onclick="validateCaptcha()">Verify Now</button>
+
+        <p id="status"></p>
+    </div>
+
+    <script>
+        let currentCaptcha = "";
+
+        // 1. Random Captcha Generate Karne ka Function
+        function generateCaptcha() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let result = "";
+            for (let i = 0; i < 6; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            currentCaptcha = result;
+            document.getElementById("captchaBox").innerText = result;
+            document.getElementById("status").innerText = ""; // Clear status
+            document.getElementById("userInput").value = ""; // Clear input
+        }
+
+        // 2. User Input Match Karne ka Function
+        function validateCaptcha() {
+            const userInput = document.getElementById("userInput").value;
+            const status = document.getElementById("status");
+
+            if (userInput === currentCaptcha) {
+                status.innerText = "✅ Success! Verified.";
+                status.style.color = "green";
+            } else {
+                status.innerText = "❌ Incorrect! Try Again.";
+                status.style.color = "red";
+                generateCaptcha(); // Galat hone par naya captcha de do
+            }
+        }
+
+        // Page load hote hi pehla captcha generate karein
+        window.onload = generateCaptcha;
+    </script>
+</body>
+
+</html>

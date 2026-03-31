@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .converter-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 { color: #333; margin-bottom: 20px; }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+
+        label { display: block; margin-bottom: 5px; color: #666; font-size: 14px; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus { border-color: #667eea; }
+
+        .currency-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .currency-row div { flex: 1; }
+
+        .swap-icon {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #667eea;
+            cursor: pointer;
+        }
+
+        #result-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3436;
+            margin: 20px 0;
+            min-height: 36px;
+        }
+
+        .convert-btn {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .convert-btn:hover { background: #5a6fd6; }
+
+        .last-update { font-size: 12px; color: #999; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="converter-card">
+        <h2><i class="fa-solid fa-arrow-right-arrow-left"></i>  Currency App</h2>
+        
+        <div class="input-group">
+            <label>Enter Amount</label>
+            <input type="number" id="amount" placeholder="e.g. 100" value="1">
+        </div>
+
+        <div class="currency-row">
+            <div>
+                <label>From</label>
+                <select id="fromCurrency">
+                    <option value="USD" selected>USD</option>
+                    <option value="PKR">PKR</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="INR">INR</option>
+                    </select>
+            </div>
+
+            <div class="swap-icon">⇄</div>
+
+            <div>
+                <label>To</label>
+                <select id="toCurrency">
+                    <option value="PKR" selected>PKR</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="INR">INR</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="result-text">Calculating...</div>
+
+        <button class="convert-btn" id="convertBtn" onclick="convertBtn()">Convert Rate</button>
+        
+        <p class="last-update" id="updateTime">Rates are real-time</p>
+    </div>
+
+    <script>
+        const amountInput = document.getElementById("amount");
+        const fromCurrency = document.getElementById("fromCurrency");
+        const toCurrency = document.getElementById("toCurrency");
+        const resultText = document.getElementById("result-text");
+
+        function convertBtn(){
+            let amount = amountInput.value;
+            let from = fromCurrency.value;
+            let to = toCurrency.value;
+
+            fetch("https://v6.exchangerate-api.com/v6/f4f09ed93c1c4d17cda1fb27/latest/USD")
+            .then(res => res.json())
+            .then(data => {
+                let change = amount/data.conversion_rates[from];
+                let finalAmount = change*data.conversion_rates[to];
+
+                resultText.innerText=`${amount} ${from} = ${finalAmount.toFixed(2)} ${to}`;
+            })
+        }
+    </script>
+</body>
+</html>

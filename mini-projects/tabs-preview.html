@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS Tabs Preview</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            background: #f4f7f6;
+        }
+
+        .tabs-container {
+            width: 400px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Tab Buttons Layout */
+        .tab-header {
+            display: flex;
+            background: #eee;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+            transition: 0.3s;
+            background: #ddd;
+        }
+
+        /* Active Tab Styling */
+        .tab-btn.active {
+            background: white;
+            color: #007bff;
+            border-bottom: 3px solid #007bff;
+        }
+
+        /* Content Area */
+        .tab-content {
+            padding: 20px;
+            display: none;
+        }
+
+        /* Shuru mein sab hidden */
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Sirf active wala dikhega */
+
+        h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="tabs-container">
+        <div class="tab-header">
+            <button class="tab-btn active" onclick="showTab(event, 'html-tab')">HTML</button>
+            <button class="tab-btn" onclick="showTab(event, 'css-tab')">CSS</button>
+            <button class="tab-btn" onclick="showTab(event, 'js-tab')">JS</button>
+        </div>
+
+        <div id="html-tab" class="tab-content active">
+            <h3>HyperText Markup</h3>
+            <p>HTML is the skeleton of your web page. It defines the structure.</p>
+        </div>
+
+        <div id="css-tab" class="tab-content">
+            <h3>Cascading Style</h3>
+            <p>CSS is the skin of your web page. It adds colors and layouts.</p>
+        </div>
+
+        <div id="js-tab" class="tab-content">
+            <h3>JavaScript Logic</h3>
+            <p>JS is the brain. It makes your page interactive and dynamic.</p>
+        </div>
+    </div>
+
+    <script>
+        function showTab(event, tabId) {
+            // 1. Saare tab contents ko hide kar do
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // 2. Saare buttons se 'active' class hata do
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // 3. Clicked tab aur button ko 'active' kar do
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+</body>
+
+</html>

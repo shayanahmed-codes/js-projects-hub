@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Application</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            align-items: center;
+        }
+        .atm-card {
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.screen {
+    background: #ecf0f1;
+    color: #2c3e50;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+input {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2ecc71;
+}
+
+.error-msg {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 10px;
+}
+    </style>
+</head>
+<body>
+    
+    <div class="atm-card">
+    <h2>My Digital ATM</h2>
+    
+    <div class="screen">
+        <p>Current Balance: $<span id="balance-display">15000</span></p>
+    </div>
+
+    <div class="input-section">
+        <input type="number" id="amount-input" placeholder="Enter Amount">
+        <button id="withdraw-btn" onclick="call()">Withdraw Cash</button>
+    </div>
+
+    <p id="message" class="error-msg"></p>
+</div>
+
+    <script>
+        let message = document.getElementById("message");
+        
+        function call(){
+            let balanceElement = document.getElementById("balance-display");
+            let currentBalance = parseInt(balanceElement.innerText);
+            let amountInput = parseInt(document.getElementById("amount-input").value);
+            if(currentBalance >= amountInput){
+                let newBalance=currentBalance-amountInput;
+                balanceElement.innerText=newBalance;
+                message.innerText="Withdraw Cash! $"+amountInput;
+                console.log("successfully Withdraw ! = $"+amountInput);
+            }   else if (isNaN(amountInput)){
+                alert("Input is empty");
+            } 
+             else {
+                alert("Low Balance");
+            }
+        }
+    </script>
+
+</body>
+</html>

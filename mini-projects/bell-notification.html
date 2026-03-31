@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bell Notification</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 90vh;
+            background: #f0f2f5;
+        }
+
+        /* Bell Container */
+        .notification-box {
+            position: relative;
+            cursor: pointer;
+            font-size: 40px;
+        }
+
+        /* Red Badge (Number) */
+        .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: red;
+            color: white;
+            font-size: 14px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: none;
+        }
+
+        /* Shake Animation */
+        @keyframes shake {
+            0% {
+                transform: rotate(0);
+            }
+
+            20% {
+                transform: rotate(15deg);
+            }
+
+            40% {
+                transform: rotate(-15deg);
+            }
+
+            60% {
+                transform: rotate(10deg);
+            }
+
+            80% {
+                transform: rotate(-10deg);
+            }
+
+            100% {
+                transform: rotate(0);
+            }
+        }
+
+        .play-animation {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            background: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="notification-box" id="bellBox">
+        🔔
+        <span class="badge" id="countBadge">0</span>
+    </div>
+
+    <button onclick="sendNotification()">Send Notification</button>
+
+    <script>
+        let count = 0;
+
+        function sendNotification() {
+            count++;
+            const bell = document.getElementById('bellBox');
+            const badge = document.getElementById('countBadge');
+
+            // 1. Update Badge
+            badge.innerText = count;
+            badge.style.display = 'block';
+
+            // 2. Play Animation
+            bell.classList.add('play-animation');
+
+            // 3. Remove class after animation ends (taaki dobara chal sake)
+            setTimeout(() => {
+                bell.classList.remove('play-animation');
+            }, 500);
+            
+        }
+
+        // Click bell to reset
+        document.getElementById('bellBox').onclick = function () {
+            count = 0;
+            document.getElementById('countBadge').style.display = 'none';
+            alert("All notifications cleared!");
+        };
+
+        
+    </script>
+</body>
+
+</html>

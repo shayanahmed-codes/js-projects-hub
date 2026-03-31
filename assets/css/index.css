@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Raleway:wght@300;400&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #050510;
+      overflow: hidden;
+      font-family: 'Raleway', sans-serif;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.3;
+      }
+
+      50% {
+        opacity: 0.7;
+      }
+    }
+
+    /* Card Container */
+.projects-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1200px;
+  max-height: 80vh;
+  overflow-y: auto; /* Agar screen chhoti ho toh scroll ho jaye */
+  padding: 20px;
+  text-align: center;
+}
+
+.main-title {
+  color: white;
+  font-family: 'Cinzel Decorative', cursive;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  letter-spacing: 5px;
+  text-shadow: 0 0 20px rgba(140, 190, 255, 0.6);
+}
+
+/* Grid Layout */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+/* Glassmorphism Card Style */
+.project-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 20px;
+  color: white;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.project-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-10px);
+  border-color: rgba(140, 190, 255, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.project-card h3 {
+  font-family: 'Cinzel Decorative', cursive;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #8cbeff;
+}
+
+.project-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid #27ae60;
+  color: #27ae60;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #27ae60;
+  color: white;
+  box-shadow: 0 0 15px #27ae60;
+}
+
+/* Custom Scrollbar for the container */
+.projects-container::-webkit-scrollbar {
+  width: 5px;
+}
+.projects-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
