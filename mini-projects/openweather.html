@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast - Weather App</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <style>
+        /* 1. Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            color: white;
+        }
+
+        /* 2. Glassmorphism Card */
+        .weather-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h2 { margin-bottom: 20px; font-weight: 300; }
+
+        /* 3. Input & Button Styling */
+        .search-box { display: flex; gap: 10px; margin-bottom: 25px; }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #ff8c00;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #e67e00; transform: scale(1.05); }
+
+        /* 4. Weather Info Styling */
+        #weatherResult h1 { font-size: 3.5rem; margin: 10px 0; }
+        #weatherResult h3 { font-size: 1.5rem; margin: 0; opacity: 0.9; }
+        .desc { text-transform: capitalize; font-style: italic; margin-bottom: 15px; }
+        .details { display: flex; justify-content: center; gap: 20px; font-size: 0.9rem; }
+
+        /* Icon styling */
+        .weather-icon { width: 100px; height: 100px; }
+    </style>
+</head>
+<body>
+
+    <div class="weather-card">
+        <h2>SkyCast</h2>
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Enter city...">
+            <button onclick="getWeather()">Search</button>
+        </div>
+
+        <div id="weatherResult">
+            <p>Enter a city to see the weather.</p>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = "f252ad216fca0477013e2055b262b3c6";
+
+        async function getWeather() {
+            const city = document.getElementById("cityInput").value;
+            const resultDiv = document.getElementById("weatherResult");
+
+            if (!city) { alert("Please enter a city!"); return; }
+
+            resultDiv.innerHTML = "<p>Loading...</p>";
+
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+                const data = await response.json();
+                
+                if (data.cod === "404") {
+                    resultDiv.innerHTML = "<p>City not found! ❌</p>";
+                } else {
+                    // API se icon code lena
+                    const iconCode = data.weather[0].icon;
+                    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+                    resultDiv.innerHTML = `
+                        <h3>${data.name}, ${data.sys.country}</h3>
+                        <img src="${iconUrl}" class="weather-icon" alt="weather">
+                        <h1>${Math.round(data.main.temp)}°C</h1>
+                        <p class="desc">${data.weather[0].description}</p>
+                        <div class="details">
+                            <span>💧 Humidity: ${data.main.humidity}%</span>
+                            <span>🌬️ Wind: ${(data.wind.speed * 3.6).toFixed(0)} KM/H</span>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = "<p>Error fetching data!</p>";
+                console.log(error);
+            }
+        }
+    </script>
+</body>
+</html>
